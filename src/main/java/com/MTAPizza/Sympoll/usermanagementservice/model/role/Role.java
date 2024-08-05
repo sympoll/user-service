@@ -1,4 +1,4 @@
-package com.MTAPizza.Sympoll.usermanagementservice.model;
+package com.MTAPizza.Sympoll.usermanagementservice.model.role;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Data
-public class Roles {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID rollId;
