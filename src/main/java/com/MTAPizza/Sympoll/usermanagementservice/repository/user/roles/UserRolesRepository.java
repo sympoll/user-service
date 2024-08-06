@@ -1,6 +1,6 @@
-package com.MTAPizza.Sympoll.usermanagementservice.repository.userRoles;
+package com.MTAPizza.Sympoll.usermanagementservice.repository.user.roles;
 
-import com.MTAPizza.Sympoll.usermanagementservice.model.userRoles.UserRoles;
+import com.MTAPizza.Sympoll.usermanagementservice.model.user.roles.UserRoles;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.MTAPizza.Sympoll.usermanagementservice.model.userRoles;
+package com.MTAPizza.Sympoll.usermanagementservice.model.user.roles;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

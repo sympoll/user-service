@@ -21,7 +21,7 @@ public class User {
     private UUID userId;
 
     @Column(name = "username")
-    private String userName;
+    private String username;
 
     @Column(name = "password_hash")
     private String password;
