@@ -1,5 +1,6 @@
 package com.MTAPizza.Sympoll.usermanagementservice.model.user;
 
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,6 +33,14 @@ public class User {
     @Column(name = "created_at")
     private final LocalDateTime timeCreated = LocalDateTime.now(); // Initialize to the current time.
 
-
+    public UserResponse toUserResponse(){
+        return new UserResponse(
+                this.userId,
+                this.username,
+                this.password,
+                this.email,
+                this.timeCreated
+        );
+    }
 
 }
