@@ -6,8 +6,8 @@ import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
 import com.MTAPizza.Sympoll.usermanagementservice.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,12 +15,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UserService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public UserResponse createUser(UserCreateRequest userCreateRequest){
         User user = User.builder()
                 .username(userCreateRequest.username())
-                .password(encodePassword(userCreateRequest.password()))
+                .password(hashPassword(userCreateRequest.password()))
                 .email(userCreateRequest.email())
                 .build();
 
@@ -30,7 +29,11 @@ public class UserService {
         return user.toUserResponse();
     }
 
-    private String encodePassword(String password) {
-        return passwordEncoder.encode(password);
+    private String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
+    private boolean checkPassword(String password, String hashed) {
+        return BCrypt.checkpw(password, hashed);
     }
 }

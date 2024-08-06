@@ -1,5 +1,6 @@
 package com.MTAPizza.Sympoll.usermanagementservice.model.user.roles;
 
+import com.MTAPizza.Sympoll.usermanagementservice.model.user.roles.id.UserRolesId;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "user_roles")
+@IdClass(UserRolesId.class)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
