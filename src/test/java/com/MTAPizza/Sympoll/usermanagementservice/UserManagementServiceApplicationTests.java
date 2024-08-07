@@ -3,6 +3,7 @@ package com.MTAPizza.Sympoll.usermanagementservice;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
 import com.google.gson.Gson;
 import io.restassured.RestAssured;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +14,9 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.List;
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -21,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserManagementServiceApplicationTests {
 
+	private static UUID userId;
 	private static final Gson gson;
 
 	/**
@@ -64,6 +69,20 @@ class UserManagementServiceApplicationTests {
 		/* Verify user response */
 		assertNotNull(user1Response.userID(), "User ID should not be null"); // Verify ID
 		assertEquals("MTAPizza@gmail.com", user1Response.email()); // Verify email
+
+		String requestBodyUsr2 = """
+                {
+                  "username": "SirFeliX",
+                  "password": "m1e2o3w4",
+                  "email": "iHuntParrots3@gmail.com"
+                }
+                """;
+
+		UserResponse user2Response = tryToCreateUserAndAssertStatusCode(requestBodyUsr2, HttpStatus.CREATED).as(UserResponse.class);
+
+		/* Verify user response */
+		assertNotNull(user2Response.userID(), "User ID should not be null"); // Verify ID
+		assertEquals("iHuntParrots3@gmail.com", user2Response.email()); // Verify email
 	}
 
 	/**
@@ -82,5 +101,25 @@ class UserManagementServiceApplicationTests {
 				.statusCode(expectedStatus.value())
 				.extract().response();
 	}
+
+	@Test
+	@Order(2)
+	void shouldGetAllUsers(){
+		// Check that response is in fact 200
+		Response response = RestAssured.given()
+				.contentType("application/json")
+				.when()
+				.get("/api/user/all")
+				.then()
+				.statusCode(200)
+				.extract().response();
+
+		List<UserResponse> userResponses = response.as(new TypeRef<>() {});
+
+		/* Verify user response */
+		assertEquals(2, userResponses.size(), "Expected 2 users in the response");
+		userId = userResponses.get(0).userID();
+	}
+
 
 }
