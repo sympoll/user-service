@@ -2,10 +2,11 @@ package com.MTAPizza.Sympoll.usermanagementservice.validator;
 
 import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
 import com.MTAPizza.Sympoll.usermanagementservice.repository.user.UserRepository;
-import com.MTAPizza.Sympoll.usermanagementservice.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -42,11 +43,11 @@ public class Validator {
     private void validateUserName(String username) {
         checkUsernameValidCharacters(username);
         checkUsernameMinimumLength(username);
-        validateUsernameExists(username);
+        checkUsernameDoesntExist(username);
     }
 
-    private void validateUsernameExists(String username) {
-        if(userRepository.existsByUsername(username)){
+    private void checkUsernameDoesntExist(String username) {
+        if(isUsernameExist(username)){
             log.warn("A client tried to create a user with username \"{}\" but this username is already taken.", username);
             throw new IllegalArgumentException(String.format("The username %s already exists.", username));
         }
@@ -70,11 +71,11 @@ public class Validator {
 
     private void validateEmail(String email) {
         checkEmailPattern(email);
-        validateEmailExists(email);
+        checkEmailDoesntExist(email);
     }
 
-    private void validateEmailExists(String email) {
-        if(userRepository.existsByEmail(email)){
+    private void checkEmailDoesntExist(String email) {
+        if(isEmailExist(email)){
             log.warn("A client tried to create an account with email \"{}\" but this email is already taken.", email);
             throw new IllegalArgumentException(String.format("An account with the email %s already exists.", email));
         }
@@ -87,5 +88,31 @@ public class Validator {
             log.warn("Invalid email format.");
             throw new IllegalArgumentException("Invalid email format.");
         }
+    }
+
+    public void checkUsernameExists(String username) {
+        if(!isUsernameExist(username)){
+            log.warn("A client tried to access user \"{}\" but this username doesn't exist.", username);
+            throw new IllegalArgumentException(String.format("The username %s does not exist.", username));
+        }
+    }
+
+    public void checkUserIdExists(UUID userId) {
+        if(!isUserIdExists(userId)){
+            log.warn("A client tried to access user \"{}\" but this Id doesn't exist.", userId);
+            throw new IllegalArgumentException(String.format("The id %s does not exist.", userId));
+        }
+    }
+
+    private boolean isUsernameExist(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    private boolean isEmailExist(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    private boolean isUserIdExists(UUID userID){
+        return userRepository.existsById(userID);
     }
 }

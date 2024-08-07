@@ -39,11 +39,5 @@ public class UserService {
         return BCrypt.checkpw(password, hashed);
     }
 
-    public boolean isUsernameExist(String username) {
-        return userRepository.existsByUsername(username);
-    }
 
-    public boolean isEmailExist(String email) {
-        return userRepository.existsByEmail(email);
-    }
 }
