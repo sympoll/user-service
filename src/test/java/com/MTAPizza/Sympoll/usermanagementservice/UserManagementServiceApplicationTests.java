@@ -122,7 +122,7 @@ class UserManagementServiceApplicationTests {
 	}
 
 	@Test
-	@Order(4)
+	@Order(3)
 	void shouldGetUserById() {
 		// Check that response is in fact 200
 		Response response = RestAssured.given()
@@ -130,6 +130,27 @@ class UserManagementServiceApplicationTests {
 				.contentType("application/json")
 				.when()
 				.get("/api/user/by-user-id")
+				.then()
+				.statusCode(200)
+				.extract().response();
+
+		UserResponse userResponse = response.as(UserResponse.class);
+
+		/* Verify user response */
+		assertNotNull(userResponse.userID(), "User ID should not be null");
+		assertEquals(userId, userResponse.userID());
+		assertEquals("MTAPizza@gmail.com", userResponse.email());
+	}
+
+	@Test
+	@Order(4)
+	void shouldDeleteUserById(){
+		// Check that response is in fact 200
+		Response response = RestAssured.given()
+				.queryParam("userId", userId.toString())
+				.contentType("application/json")
+				.when()
+				.delete("/api/user/by-user-id")
 				.then()
 				.statusCode(200)
 				.extract().response();
