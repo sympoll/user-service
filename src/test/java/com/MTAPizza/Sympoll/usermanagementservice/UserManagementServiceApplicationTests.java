@@ -122,8 +122,8 @@ class UserManagementServiceApplicationTests {
 	}
 
 	@Test
-	@Order(3)
-	void shouldGetAllUserById() {
+	@Order(4)
+	void shouldGetUserById() {
 		// Check that response is in fact 200
 		Response response = RestAssured.given()
 				.queryParam("userId", userId.toString())

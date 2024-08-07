@@ -11,6 +11,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +34,7 @@ public class UserService {
         // TODO: Validation for the user object
         userRepository.save(user);
         log.info("USER: {} was created.", user.getUserId());
+        log.info("USER{}: {}", user.getUserId(), user.toString());
         return user.toUserResponse();
     }
 
@@ -47,6 +49,16 @@ public class UserService {
                 .stream()
                 .map(User::toUserResponse)
                 .toList();
+    }
+
+    /**
+     * Retrieve a user from the database.
+     * @param userId ID of the user to retrieve.
+     * @return The retrieved user's details.
+     */
+    public UserResponse getUserById(UUID userId){
+        log.info("Retrieving user by id: {}", userId);
+        return userRepository.getReferenceById(userId).toUserResponse();
     }
 
     private String hashPassword(String password) {

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/user")
@@ -39,6 +40,18 @@ public class ServiceController {
     public List<UserResponse> getAllUsers(){
         log.info("Received request to retrieve all users");
         return userService.getAllUsers();
+    }
+
+    /**
+     * Fetch a user from the database, by its ID.
+     * @param userId ID of the user to fetch.
+     * @return The user requested.
+     */
+    @GetMapping("/by-user-id")
+    @ResponseStatus(HttpStatus.OK)
+    public UserResponse getUserByID(@RequestParam UUID userId){
+        log.info("Received request to retrieve a user by ID");
+        return userService.getUserById(userId);
     }
 
 }
