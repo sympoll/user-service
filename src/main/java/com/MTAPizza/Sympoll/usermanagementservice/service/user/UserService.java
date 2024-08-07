@@ -10,12 +10,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class UserService {
     private final UserRepository userRepository;
 
+    /**
+     * Create and add a user to the database.
+     * @param userCreateRequest Details of the user to add.
+     * @return The user that was added to the database.
+     */
     public UserResponse createUser(UserCreateRequest userCreateRequest){
         User user = User.builder()
                 .username(userCreateRequest.username())
@@ -27,6 +34,19 @@ public class UserService {
         userRepository.save(user);
         log.info("USER: {} was created.", user.getUserId());
         return user.toUserResponse();
+    }
+
+    /**
+     * Retrieves all users from the repository and maps them to USerResponse DTOs.
+     * @return List of UserResponse DTOs containing details of all users.
+     */
+    public List<UserResponse> getAllUsers() {
+        log.info("Retrieving all users in database...");
+        return userRepository
+                .findAll()
+                .stream()
+                .map(User::toUserResponse)
+                .toList();
     }
 
     private String hashPassword(String password) {
