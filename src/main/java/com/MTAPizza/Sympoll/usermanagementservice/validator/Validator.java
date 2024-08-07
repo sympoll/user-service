@@ -1,5 +1,6 @@
 package com.MTAPizza.Sympoll.usermanagementservice.validator;
 
+import com.MTAPizza.Sympoll.usermanagementservice.exception.UserNotFoundException;
 import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
 import com.MTAPizza.Sympoll.usermanagementservice.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -93,14 +94,14 @@ public class Validator {
     public void checkUsernameExists(String username) {
         if(!isUsernameExist(username)){
             log.warn("A client tried to access user \"{}\" but this username doesn't exist.", username);
-            throw new IllegalArgumentException(String.format("The username %s does not exist.", username));
+            throw new UserNotFoundException(String.format("The username %s does not exist.", username));
         }
     }
 
     public void checkUserIdExists(UUID userId) {
         if(!isUserIdExists(userId)){
             log.warn("A client tried to access user \"{}\" but this Id doesn't exist.", userId);
-            throw new IllegalArgumentException(String.format("The id %s does not exist.", userId));
+            throw new UserNotFoundException(String.format("The id %s does not exist.", userId));
         }
     }
 
