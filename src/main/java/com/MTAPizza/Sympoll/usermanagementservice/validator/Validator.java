@@ -1,8 +1,6 @@
 package com.MTAPizza.Sympoll.usermanagementservice.validator;
 
-import com.MTAPizza.Sympoll.usermanagementservice.dto.error.IllegalUserArgumentError;
 import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
-import com.MTAPizza.Sympoll.usermanagementservice.repository.user.UserRepository;
 import com.MTAPizza.Sympoll.usermanagementservice.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class Validator {
-    private UserService userService;
+    private final UserService userService;
     public void validateNewUser(User user) {
         validatePassword(user.getPassword());
         validateUserName(user.getUsername());
