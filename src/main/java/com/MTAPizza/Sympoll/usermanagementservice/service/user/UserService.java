@@ -4,6 +4,7 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
 import com.MTAPizza.Sympoll.usermanagementservice.repository.user.UserRepository;
+import com.MTAPizza.Sympoll.usermanagementservice.validator.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class UserService {
     private final UserRepository userRepository;
+    private final Validator validator;
 
     public UserResponse createUser(UserCreateRequest userCreateRequest){
         User user = User.builder()
@@ -23,7 +25,7 @@ public class UserService {
                 .email(userCreateRequest.email())
                 .build();
 
-        // TODO: Validation for the user object
+        validator.validateNewUser(user);
         userRepository.save(user);
         log.info("USER: {} was created.", user.getUserId());
         return user.toUserResponse();

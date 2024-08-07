@@ -1,14 +1,17 @@
 package com.MTAPizza.Sympoll.usermanagementservice.validator;
 
 import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
+import com.MTAPizza.Sympoll.usermanagementservice.repository.user.UserRepository;
 import com.MTAPizza.Sympoll.usermanagementservice.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public class Validator {
-    private final UserService userService;
+    private final UserRepository userRepository;
     public void validateNewUser(User user) {
         validatePassword(user.getPassword());
         validateUserName(user.getUsername());
@@ -43,7 +46,7 @@ public class Validator {
     }
 
     private void validateUsernameExists(String username) {
-        if(userService.isUsernameExist(username)){
+        if(userRepository.existsByUsername(username)){
             log.warn("A client tried to create a user with username \"{}\" but this username is already taken.", username);
             throw new IllegalArgumentException(String.format("The username %s already exists.", username));
         }
@@ -71,7 +74,7 @@ public class Validator {
     }
 
     private void validateEmailExists(String email) {
-        if(userService.isEmailExist(email)){
+        if(userRepository.existsByEmail(email)){
             log.warn("A client tried to create an account with email \"{}\" but this email is already taken.", email);
             throw new IllegalArgumentException(String.format("An account with the email %s already exists.", email));
         }
