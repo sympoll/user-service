@@ -54,4 +54,16 @@ public class ServiceController {
         return userService.getUserById(userId);
     }
 
+    /**
+     * Delete a user from the database, by its ID.
+     * @param userId ID of the user to delete.
+     * @return The ID of the user that was deleted.
+     */
+    @DeleteMapping("/by-user-id")
+    @ResponseStatus(HttpStatus.OK)
+    public UUID deleteUserByID(@RequestParam UUID userId){
+        log.info("Received request to delete a user by ID");
+        return userService.deleteUserById(userId);
+    }
+
 }

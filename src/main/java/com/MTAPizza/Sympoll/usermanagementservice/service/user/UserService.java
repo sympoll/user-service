@@ -61,6 +61,17 @@ public class UserService {
         return userRepository.getReferenceById(userId).toUserResponse();
     }
 
+    /**
+     * Delete a user from the database.
+     * @param userId ID of the user to delete.
+     * @return the ID of the user deleted.
+     */
+    public UUID deleteUserById(UUID userId){
+        log.info("Deleting user by id: {}", userId);
+        userRepository.deleteById(userId);
+        return userId;
+    }
+
     private String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
     }

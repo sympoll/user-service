@@ -155,12 +155,10 @@ class UserManagementServiceApplicationTests {
 				.statusCode(200)
 				.extract().response();
 
-		UserResponse userResponse = response.as(UserResponse.class);
+		UUID uuidResponse = response.as(UUID.class);
 
-		/* Verify user response */
-		assertNotNull(userResponse.userID(), "User ID should not be null");
-		assertEquals(userId, userResponse.userID());
-		assertEquals("MTAPizza@gmail.com", userResponse.email());
+		/* Verify uuid response */
+		assertEquals(userId, uuidResponse);
 	}
 
 
