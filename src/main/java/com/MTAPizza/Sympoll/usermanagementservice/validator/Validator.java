@@ -1,5 +1,6 @@
 package com.MTAPizza.Sympoll.usermanagementservice.validator;
 
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.exception.UserNotFoundException;
 import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
 import com.MTAPizza.Sympoll.usermanagementservice.repository.user.UserRepository;
@@ -14,10 +15,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class Validator {
     private final UserRepository userRepository;
-    public void validateNewUser(User user) {
-        validatePassword(user.getPassword());
-        validateUserName(user.getUsername());
-        validateEmail(user.getEmail());
+    public void validateNewUser(UserCreateRequest userCreateRequest) {
+        validatePassword(userCreateRequest.password());
+        validateUserName(userCreateRequest.username());
+        validateEmail(userCreateRequest.email());
     }
 
     private void validatePassword(String password) {

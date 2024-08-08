@@ -27,13 +27,13 @@ public class UserService {
      * @return The user that was added to the database.
      */
     public UserResponse createUser(UserCreateRequest userCreateRequest){
+        validator.validateNewUser(userCreateRequest);
         User user = User.builder()
                 .username(userCreateRequest.username())
                 .password(hashPassword(userCreateRequest.password()))
                 .email(userCreateRequest.email())
                 .build();
 
-        validator.validateNewUser(user);
         userRepository.save(user);
         log.info("USER: {} was created.", user.getUserId());
         log.info("USER{}: {}", user.getUserId(), user.toString());
@@ -59,6 +59,7 @@ public class UserService {
      * @return The retrieved user's details.
      */
     public UserResponse getUserById(UUID userId){
+        validator.checkUserIdExists(userId);
         log.info("Retrieving user by id: {}", userId);
         return userRepository.getReferenceById(userId).toUserResponse();
     }
@@ -69,6 +70,7 @@ public class UserService {
      * @return the ID of the user deleted.
      */
     public UUID deleteUserById(UUID userId){
+        validator.checkUserIdExists(userId);
         log.info("Deleting user by id: {}", userId);
         userRepository.deleteById(userId);
         return userId;
