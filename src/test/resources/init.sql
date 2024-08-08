@@ -13,7 +13,7 @@ CREATE TABLE roles (
 );
 
 CREATE TABLE user_roles (
-    group_id UUID NOT NULL,
+    group_id VARCHAR(255) NOT NULL,
     user_id UUID NOT NULL,
     role_id UUID REFERENCES roles(role_id) ON DELETE CASCADE,
     PRIMARY KEY (group_id, user_id),
