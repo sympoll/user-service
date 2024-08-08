@@ -18,7 +18,7 @@ import java.util.UUID;
 @Data
 public class UserRoles {
     @Id
-    private UUID groupId;
+    private String groupId;
 
     @Id
     private UUID userId;
