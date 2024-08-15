@@ -1,6 +1,7 @@
 package com.MTAPizza.Sympoll.usermanagementservice;
 
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
 import com.google.gson.Gson;
 import io.restassured.RestAssured;
 import io.restassured.common.mapper.TypeRef;
@@ -17,15 +18,15 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserManagementServiceApplicationTests {
 
-	private static UUID userId;
+	private static UUID firstUserId;
+	private static UUID secondUserId;
 	private static final Gson gson;
 
 	/**
@@ -118,7 +119,8 @@ class UserManagementServiceApplicationTests {
 
 		/* Verify user response */
 		assertEquals(2, userResponses.size(), "Expected 2 users in the response");
-		userId = userResponses.get(0).userID();
+		firstUserId = userResponses.get(0).userID();
+		secondUserId = userResponses.get(1).userID();
 	}
 
 	@Test
@@ -126,7 +128,7 @@ class UserManagementServiceApplicationTests {
 	void shouldGetUserById() {
 		// Check that response is in fact 200
 		Response response = RestAssured.given()
-				.queryParam("userId", userId.toString())
+				.queryParam("userId", firstUserId.toString())
 				.contentType("application/json")
 				.when()
 				.get("/api/user/by-user-id")
@@ -138,7 +140,7 @@ class UserManagementServiceApplicationTests {
 
 		/* Verify user response */
 		assertNotNull(userResponse.userID(), "User ID should not be null");
-		assertEquals(userId, userResponse.userID());
+		assertEquals(firstUserId, userResponse.userID());
 		assertEquals("MTAPizza@gmail.com", userResponse.email());
 	}
 
@@ -147,7 +149,7 @@ class UserManagementServiceApplicationTests {
 	void shouldDeleteUserById(){
 		// Check that response is in fact 200
 		Response response = RestAssured.given()
-				.queryParam("userId", userId.toString())
+				.queryParam("userId", firstUserId.toString())
 				.contentType("application/json")
 				.when()
 				.delete("/api/user/by-user-id")
@@ -158,7 +160,32 @@ class UserManagementServiceApplicationTests {
 		UUID uuidResponse = response.as(UUID.class);
 
 		/* Verify uuid response */
-		assertEquals(userId, uuidResponse);
+		assertEquals(firstUserId, uuidResponse);
+	}
+
+	@Test
+	@Order(5)
+	void shouldUserIdExists() {
+		String requestBody = String.format("""
+                {
+                  "userId": "%s"
+                }
+                """, secondUserId);
+
+		// Check that response is in fact 200
+		Response response = RestAssured.given()
+				.contentType("application/json")
+				.body(requestBody)
+				.when()
+				.get("/api/user/id")
+				.then()
+				.statusCode(200)
+				.extract().response();
+
+		UserIdExistsResponse userIdExistsResponse = response.as(UserIdExistsResponse.class);
+
+		/* Verify user id exists response */
+        assertTrue(userIdExistsResponse.isExists());
 	}
 
 
