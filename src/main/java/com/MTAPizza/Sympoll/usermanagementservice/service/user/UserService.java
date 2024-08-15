@@ -2,6 +2,7 @@ package com.MTAPizza.Sympoll.usermanagementservice.service.user;
 
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
 import com.MTAPizza.Sympoll.usermanagementservice.repository.user.UserRepository;
 import com.MTAPizza.Sympoll.usermanagementservice.validator.Validator;
@@ -74,6 +75,16 @@ public class UserService {
         log.info("Deleting user by id: {}", userId);
         userRepository.deleteById(userId);
         return userId;
+    }
+
+    public UserIdExistsResponse checkUserIdExists(UUID userId){
+        boolean isExists = true;
+
+        if(!userRepository.existsById(userId)){
+            isExists = false;
+        }
+
+        return new UserIdExistsResponse(isExists);
     }
 
     private String hashPassword(String password) {
