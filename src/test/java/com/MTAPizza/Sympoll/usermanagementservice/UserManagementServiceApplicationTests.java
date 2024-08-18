@@ -166,16 +166,10 @@ class UserManagementServiceApplicationTests {
 	@Test
 	@Order(5)
 	void shouldUserIdExists() {
-		String requestBody = String.format("""
-                {
-                  "userId": "%s"
-                }
-                """, secondUserId);
-
 		// Check that response is in fact 200
 		Response response = RestAssured.given()
 				.contentType("application/json")
-				.body(requestBody)
+				.param("userId", secondUserId)
 				.when()
 				.get("/api/user/id")
 				.then()
