@@ -2,7 +2,6 @@ package com.MTAPizza.Sympoll.usermanagementservice.controller;
 
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -68,11 +67,16 @@ public class ServiceController {
         return userService.deleteUserById(userId);
     }
 
+    /**
+     * Verify if given user ID exists in the database
+     * @param userId User ID to check
+     * @return A DTO holds a boolean field
+     */
     @GetMapping("/id")
     @ResponseStatus(HttpStatus.OK)
-    public UserIdExistsResponse checkUserIdExists(@RequestBody UserIdExistsRequest userIdExistsRequest){
-        log.info("Received request to check if user id exists");
-        return userService.checkUserIdExists(userIdExistsRequest.userId());
+    public UserIdExistsResponse checkUserIdExists(@RequestParam UUID userId){
+        log.info("Received request to check if user id '{}' exists", userId);
+        return userService.checkUserIdExists(userId);
     }
 
 }

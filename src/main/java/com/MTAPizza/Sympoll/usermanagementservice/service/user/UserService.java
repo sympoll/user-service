@@ -77,6 +77,11 @@ public class UserService {
         return userId;
     }
 
+    /**
+     * Verify if given user ID exists in the database
+     * @param userId User ID to check
+     * @return A DTO holds a boolean field
+     */
     public UserIdExistsResponse checkUserIdExists(UUID userId){
         boolean isExists = true;
 
