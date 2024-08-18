@@ -15,6 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class Validator {
     private final UserRepository userRepository;
+
     public void validateNewUser(UserCreateRequest userCreateRequest) {
         validatePassword(userCreateRequest.password());
         validateUserName(userCreateRequest.username());
