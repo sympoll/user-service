@@ -2,7 +2,9 @@ package com.MTAPizza.Sympoll.usermanagementservice.controller;
 
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -68,9 +70,9 @@ public class ServiceController {
     }
 
     /**
-     * Verify if given user ID exists in the database
-     * @param userId User ID to check
-     * @return A DTO holds a boolean field
+     * Verify if given user ID exists in the database.
+     * @param userId User ID to check.
+     * @return A DTO holds a boolean field.
      */
     @GetMapping("/id")
     @ResponseStatus(HttpStatus.OK)
@@ -79,4 +81,27 @@ public class ServiceController {
         return userService.checkUserIdExists(userId);
     }
 
+    /**
+     * Verify if given username already exists in the database.
+     * @param username Username string to check.
+     * @return A DTO holds a boolean field.
+     */
+    @GetMapping("/username")
+    @ResponseStatus(HttpStatus.OK)
+    public UsernameExistsResponse checkUserIdExists(@RequestParam String username){
+        log.info("Received request to check if username '{}' exists", username);
+        return userService.checkUsernameExists(username);
+    }
+
+    /**
+     * Verify if given email already exists in the database.
+     * @param email Email string to check.
+     * @return A DTO holds a boolean field.
+     */
+    @GetMapping("/email")
+    @ResponseStatus(HttpStatus.OK)
+    public EmailExistsResponse checkEmailExists(@RequestParam String email){
+        log.info("Received request to check if email '{}' exists", email);
+        return userService.checkEmailExists(email);
+    }
 }

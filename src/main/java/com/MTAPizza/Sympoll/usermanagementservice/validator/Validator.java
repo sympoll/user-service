@@ -37,7 +37,7 @@ public class Validator {
     }
 
     private void checkMinimumLength(String password) {
-        if (password.length() < 4) {
+        if (password.length() < 6) {
             log.warn("Password is too short. It must be at least 4 characters long.");
             throw new IllegalArgumentException("Password is too short. It must be at least 4 characters long.");
         }
@@ -66,7 +66,7 @@ public class Validator {
     }
 
     private void checkUsernameMinimumLength(String username) {
-        if (username.length() < 2) {
+        if (username.length() < 4) {
             log.warn("Username is too short. It must be at least 2 characters long.");
             throw new IllegalArgumentException("Username is too short. It must be at least 2 characters long.");
         }

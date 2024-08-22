@@ -2,7 +2,9 @@ package com.MTAPizza.Sympoll.usermanagementservice.service.user;
 
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
 import com.MTAPizza.Sympoll.usermanagementservice.repository.user.UserRepository;
 import com.MTAPizza.Sympoll.usermanagementservice.validator.Validator;
@@ -83,13 +85,25 @@ public class UserService {
      * @return A DTO holds a boolean field
      */
     public UserIdExistsResponse checkUserIdExists(UUID userId){
-        boolean isExists = true;
+        return new UserIdExistsResponse(userRepository.existsById(userId));
+    }
 
-        if(!userRepository.existsById(userId)){
-            isExists = false;
-        }
+    /**
+     * Verify if given username already exists in the database.
+     * @param username Username to check.
+     * @return A DTO holds a boolean field.
+     */
+    public UsernameExistsResponse checkUsernameExists(String username){
+        return new UsernameExistsResponse(userRepository.existsByUsername(username));
+    }
 
-        return new UserIdExistsResponse(isExists);
+    /**
+     * Verify if given email already exists in the database.
+     * @param email email to check.
+     * @return A DTO holds a boolean field.
+     */
+    public EmailExistsResponse checkEmailExists(String email){
+        return new EmailExistsResponse(userRepository.existsByEmail(email));
     }
 
     private String hashPassword(String password) {
@@ -99,6 +113,4 @@ public class UserService {
     private boolean checkPassword(String password, String hashed) {
         return BCrypt.checkpw(password, hashed);
     }
-
-
 }
