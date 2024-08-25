@@ -5,6 +5,7 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
 import com.MTAPizza.Sympoll.usermanagementservice.repository.user.UserRepository;
 import com.MTAPizza.Sympoll.usermanagementservice.validator.Validator;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -104,6 +106,17 @@ public class UserService {
      */
     public EmailExistsResponse checkEmailExists(String email){
         return new EmailExistsResponse(userRepository.existsByEmail(email));
+    }
+
+    public UsernameResponse getUsernames(List<UUID> userIdList) {
+        // TODO: validate given userIds exist
+        List<String> usernameList = new ArrayList<>();
+
+        for (UUID uuid : userIdList) {
+            usernameList.add(userRepository.getReferenceById(uuid).getUsername());
+        }
+
+        return new UsernameResponse(usernameList);
     }
 
     private String hashPassword(String password) {
