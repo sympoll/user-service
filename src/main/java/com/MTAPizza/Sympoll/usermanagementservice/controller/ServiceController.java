@@ -6,7 +6,7 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResp
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameRequest;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UserGroupMemberResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -109,8 +109,8 @@ public class ServiceController {
 
     @GetMapping("/username-list")
     @ResponseStatus(HttpStatus.OK)
-    public UsernameResponse getUsernames(@RequestParam UsernameRequest usernameRequest){
+    public UserGroupMemberResponse getUsernames(@RequestParam List<UUID> userIds){
         log.info("Received request to retrieve usernames");
-        return userService.getUsernames(usernameRequest.userIdList());
+        return userService.getUsernames(userIds);
     }
 }
