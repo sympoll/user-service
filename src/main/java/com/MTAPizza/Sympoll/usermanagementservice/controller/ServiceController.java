@@ -5,6 +5,8 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameRequest;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UserGroupMemberResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -103,5 +105,12 @@ public class ServiceController {
     public EmailExistsResponse checkEmailExists(@RequestParam String email){
         log.info("Received request to check if email '{}' exists", email);
         return userService.checkEmailExists(email);
+    }
+
+    @GetMapping("/username-list")
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserGroupMemberResponse> getUsernames(@RequestParam List<UUID> userIds){
+        log.info("Received request to retrieve usernames");
+        return userService.getUsernames(userIds);
     }
 }
