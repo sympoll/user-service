@@ -109,7 +109,7 @@ public class ServiceController {
 
     @GetMapping("/username-list")
     @ResponseStatus(HttpStatus.OK)
-    public UserGroupMemberResponse getUsernames(@RequestParam List<UUID> userIds){
+    public List<UserGroupMemberResponse> getUsernames(@RequestParam List<UUID> userIds){
         log.info("Received request to retrieve usernames");
         return userService.getUsernames(userIds);
     }
