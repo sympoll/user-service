@@ -37,7 +37,6 @@ public class User {
         return new UserResponse(
                 this.userId,
                 this.username,
-                this.password,
                 this.email,
                 this.timeCreated
         );

@@ -7,6 +7,7 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsRespon
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UserGroupMemberResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
+import com.MTAPizza.Sympoll.usermanagementservice.password.PasswordHasher;
 import com.MTAPizza.Sympoll.usermanagementservice.repository.user.UserRepository;
 import com.MTAPizza.Sympoll.usermanagementservice.validator.Validator;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class UserService {
         validator.validateNewUser(userCreateRequest);
         User user = User.builder()
                 .username(userCreateRequest.username())
-                .password(hashPassword(userCreateRequest.password()))
+                .password(PasswordHasher.hashPassword(userCreateRequest.password()))
                 .email(userCreateRequest.email())
                 .build();
 
@@ -118,11 +119,4 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    private String hashPassword(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt());
-    }
-
-    private boolean checkPassword(String password, String hashed) {
-        return BCrypt.checkpw(password, hashed);
-    }
 }
