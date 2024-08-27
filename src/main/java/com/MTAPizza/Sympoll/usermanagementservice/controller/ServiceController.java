@@ -20,6 +20,7 @@ import java.util.UUID;
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
 @Slf4j
+@CrossOrigin
 public class ServiceController {
     private final UserService userService;
 
