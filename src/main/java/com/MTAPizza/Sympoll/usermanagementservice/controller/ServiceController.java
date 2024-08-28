@@ -90,7 +90,7 @@ public class ServiceController {
      */
     @GetMapping("/username")
     @ResponseStatus(HttpStatus.OK)
-    public UsernameExistsResponse checkUserIdExists(@RequestParam String username){
+    public UsernameExistsResponse checkUsernameExists(@RequestParam String username){
         log.info("Received request to check if username '{}' exists", username);
         return userService.checkUsernameExists(username);
     }
