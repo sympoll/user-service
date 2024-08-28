@@ -12,11 +12,8 @@ import com.MTAPizza.Sympoll.usermanagementservice.repository.user.UserRepository
 import com.MTAPizza.Sympoll.usermanagementservice.validator.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -110,8 +107,13 @@ public class UserService {
         return new EmailExistsResponse(userRepository.existsByEmail(email));
     }
 
+    /**
+     * Fetch and retrieve a list of usernames by their ids.
+     * @param userIdList Given user ids.
+     * @return A list of DTO with the user id and the username.
+     */
     public List<UserGroupMemberResponse> getUsernames(List<UUID> userIdList) {
-        // TODO: validate given userIds exist
+        validator.checkMultipleUserIdsExist(userIdList);
         List<User> users = userRepository.findAllById(userIdList);
 
         return users.stream()
