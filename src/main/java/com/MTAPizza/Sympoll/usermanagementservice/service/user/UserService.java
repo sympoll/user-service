@@ -107,6 +107,11 @@ public class UserService {
         return new EmailExistsResponse(userRepository.existsByEmail(email));
     }
 
+    /**
+     * Fetch and retrieve a list of usernames by their ids.
+     * @param userIdList Given user ids.
+     * @return A list of DTO with the user id and the username.
+     */
     public List<UserGroupMemberResponse> getUsernames(List<UUID> userIdList) {
         validator.checkMultipleUserIdsExist(userIdList);
         List<User> users = userRepository.findAllById(userIdList);

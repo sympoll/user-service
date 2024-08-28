@@ -107,6 +107,11 @@ public class ServiceController {
         return userService.checkEmailExists(email);
     }
 
+    /**
+     * Fetch and retrieve a list of usernames by their ids.
+     * @param userIds Given user ids.
+     * @return A list of DTO with the user id and the username.
+     */
     @GetMapping("/username-list")
     @ResponseStatus(HttpStatus.OK)
     public List<UserGroupMemberResponse> getUsernames(@RequestParam List<UUID> userIds){
