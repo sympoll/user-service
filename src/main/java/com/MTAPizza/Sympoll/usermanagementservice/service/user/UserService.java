@@ -7,15 +7,13 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsRespon
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UserGroupMemberResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
+import com.MTAPizza.Sympoll.usermanagementservice.password.PasswordHasher;
 import com.MTAPizza.Sympoll.usermanagementservice.repository.user.UserRepository;
 import com.MTAPizza.Sympoll.usermanagementservice.validator.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -36,7 +34,7 @@ public class UserService {
         validator.validateNewUser(userCreateRequest);
         User user = User.builder()
                 .username(userCreateRequest.username())
-                .password(hashPassword(userCreateRequest.password()))
+                .password(PasswordHasher.hashPassword(userCreateRequest.password()))
                 .email(userCreateRequest.email())
                 .build();
 
@@ -109,8 +107,13 @@ public class UserService {
         return new EmailExistsResponse(userRepository.existsByEmail(email));
     }
 
+    /**
+     * Fetch and retrieve a list of usernames by their ids.
+     * @param userIdList Given user ids.
+     * @return A list of DTO with the user id and the username.
+     */
     public List<UserGroupMemberResponse> getUsernames(List<UUID> userIdList) {
-        // TODO: validate given userIds exist
+        validator.checkMultipleUserIdsExist(userIdList);
         List<User> users = userRepository.findAllById(userIdList);
 
         return users.stream()
@@ -118,11 +121,4 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    private String hashPassword(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt());
-    }
-
-    private boolean checkPassword(String password, String hashed) {
-        return BCrypt.checkpw(password, hashed);
-    }
 }

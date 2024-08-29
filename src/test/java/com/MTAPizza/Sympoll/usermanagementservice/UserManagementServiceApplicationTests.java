@@ -68,7 +68,7 @@ class UserManagementServiceApplicationTests {
 		UserResponse user1Response = tryToCreateUserAndAssertStatusCode(requestBodyUsr1, HttpStatus.CREATED).as(UserResponse.class);
 
 		/* Verify user response */
-		assertNotNull(user1Response.userID(), "User ID should not be null"); // Verify ID
+		assertNotNull(user1Response.userId(), "User ID should not be null"); // Verify ID
 		assertEquals("MTAPizza@gmail.com", user1Response.email()); // Verify email
 
 		String requestBodyUsr2 = """
@@ -82,7 +82,7 @@ class UserManagementServiceApplicationTests {
 		UserResponse user2Response = tryToCreateUserAndAssertStatusCode(requestBodyUsr2, HttpStatus.CREATED).as(UserResponse.class);
 
 		/* Verify user response */
-		assertNotNull(user2Response.userID(), "User ID should not be null"); // Verify ID
+		assertNotNull(user2Response.userId(), "User ID should not be null"); // Verify ID
 		assertEquals("iHuntParrots3@gmail.com", user2Response.email()); // Verify email
 	}
 
@@ -119,8 +119,8 @@ class UserManagementServiceApplicationTests {
 
 		/* Verify user response */
 		assertEquals(2, userResponses.size(), "Expected 2 users in the response");
-		firstUserId = userResponses.get(0).userID();
-		secondUserId = userResponses.get(1).userID();
+		firstUserId = userResponses.get(0).userId();
+		secondUserId = userResponses.get(1).userId();
 	}
 
 	@Test
@@ -139,8 +139,8 @@ class UserManagementServiceApplicationTests {
 		UserResponse userResponse = response.as(UserResponse.class);
 
 		/* Verify user response */
-		assertNotNull(userResponse.userID(), "User ID should not be null");
-		assertEquals(firstUserId, userResponse.userID());
+		assertNotNull(userResponse.userId(), "User ID should not be null");
+		assertEquals(firstUserId, userResponse.userId());
 		assertEquals("MTAPizza@gmail.com", userResponse.email());
 	}
 

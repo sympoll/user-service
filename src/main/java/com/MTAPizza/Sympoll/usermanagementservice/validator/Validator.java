@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -104,6 +105,12 @@ public class Validator {
         if(!isUserIdExists(userId)){
             log.warn("A client tried to access user \"{}\" but this Id doesn't exist.", userId);
             throw new UserNotFoundException(String.format("The id %s does not exist.", userId));
+        }
+    }
+
+    public void checkMultipleUserIdsExist(List<UUID> userIds){
+        for (UUID userId : userIds) {
+            checkUserIdExists(userId);
         }
     }
 
