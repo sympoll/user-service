@@ -4,8 +4,8 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserAddBannerPictureUrlRequest;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserAddProfilePictureUrlRequest;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateBannerPictureUrlRequest;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfilePictureUrlRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UserGroupMemberResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.exception.UserNotFoundException;
@@ -50,17 +50,17 @@ public class UserService {
 
     /**
      * Add a profile picture to a user's profile.
-     * @param userAddProfilePictureUrlRequest Information on the update requested.
+     * @param userUpdateProfilePictureUrlRequest Information on the update requested.
      * @return ID of the user that was updated.
      */
-    public UUID addProfilePictureUrl(UserAddProfilePictureUrlRequest userAddProfilePictureUrlRequest) {
+    public UUID addProfilePictureUrl(UserUpdateProfilePictureUrlRequest userUpdateProfilePictureUrlRequest) {
         User userToUpdate = userRepository
-                .findById(userAddProfilePictureUrlRequest.userId())
+                .findById(userUpdateProfilePictureUrlRequest.userId())
                 .orElseThrow(
-                        () -> new UserNotFoundException(userAddProfilePictureUrlRequest.userId())
+                        () -> new UserNotFoundException(userUpdateProfilePictureUrlRequest.userId())
                 );
 
-        userToUpdate.setProfilePictureUrl(userAddProfilePictureUrlRequest.profilePictureUrl());
+        userToUpdate.setProfilePictureUrl(userUpdateProfilePictureUrlRequest.profilePictureUrl());
         userRepository.save(userToUpdate);
 
         return userToUpdate.getUserId();
@@ -68,17 +68,17 @@ public class UserService {
 
     /**
      * Add a banner picture to a user's profile.
-     * @param userAddBannerPictureUrlRequest Information on the update requested.
+     * @param userUpdateBannerPictureUrlRequest Information on the update requested.
      * @return ID of the user that was updated.
      */
-    public UUID addBannerPictureUrl(UserAddBannerPictureUrlRequest userAddBannerPictureUrlRequest) {
+    public UUID addBannerPictureUrl(UserUpdateBannerPictureUrlRequest userUpdateBannerPictureUrlRequest) {
         User userToUpdate = userRepository
-                .findById(userAddBannerPictureUrlRequest.userId())
+                .findById(userUpdateBannerPictureUrlRequest.userId())
                 .orElseThrow(
-                        () -> new UserNotFoundException(userAddBannerPictureUrlRequest.userId())
+                        () -> new UserNotFoundException(userUpdateBannerPictureUrlRequest.userId())
                 );
 
-        userToUpdate.setBannerPictureUrl(userAddBannerPictureUrlRequest.bannerPictureUrl());
+        userToUpdate.setBannerPictureUrl(userUpdateBannerPictureUrlRequest.bannerPictureUrl());
         userRepository.save(userToUpdate);
 
         return userToUpdate.getUserId();
