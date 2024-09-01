@@ -42,7 +42,7 @@ public class ServiceController {
      * @param userUpdateProfilePictureUrlRequest Information on the update to perform.
      * @return The updated user's ID.
      */
-    @PostMapping
+    @PostMapping("/profile-picture-url")
     @ResponseStatus(HttpStatus.OK)
     public UUID updateProfilePictureUrl(@RequestBody UserUpdateProfilePictureUrlRequest userUpdateProfilePictureUrlRequest){
         log.info("Received request to save a profile picture url");
@@ -55,7 +55,7 @@ public class ServiceController {
      * @param userUpdateBannerPictureUrlRequest Information on the update to perform.
      * @return The updated user's ID.
      */
-    @PostMapping
+    @PostMapping("/profile-banner-url")
     @ResponseStatus(HttpStatus.OK)
     public UUID updateBannerPictureUrl(@RequestBody UserUpdateBannerPictureUrlRequest userUpdateBannerPictureUrlRequest){
         log.info("Received request to save a banner picture url");
