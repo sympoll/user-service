@@ -140,9 +140,9 @@ public class ServiceController {
      * @param userIds Given user ids.
      * @return A list of DTO with the user id and the username.
      */
-    @GetMapping("/username-list")
+    @PostMapping("/username-list")
     @ResponseStatus(HttpStatus.OK)
-    public List<UsernameResponse> getUsernames(@RequestParam List<UUID> userIds){
+    public List<UsernameResponse> getUsernames(@RequestBody List<UUID> userIds){
         log.info("Received request to retrieve usernames");
         return userService.getUsernames(userIds);
     }
