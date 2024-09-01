@@ -46,10 +46,10 @@ public class Validator {
     private void validateUsername(String username) {
         checkUsernameValidCharacters(username);
         checkUsernameMinimumLength(username);
-        checkUsernameDoesntExist(username);
+        validateUsernameNotExist(username);
     }
 
-    private void checkUsernameDoesntExist(String username) {
+    private void validateUsernameNotExist(String username) {
         if(isUsernameExist(username)){
             log.warn("A client tried to create a user with username \"{}\" but this username is already taken.", username);
             throw new IllegalArgumentException(String.format("The username %s already exists.", username));
@@ -103,6 +103,13 @@ public class Validator {
     public void checkMultipleUserIdsExist(List<UUID> userIds){
         for (UUID userId : userIds) {
             checkUserIdExists(userId);
+        }
+    }
+
+    public void validateUsernameExists(String username) {
+        if(!isUsernameExist(username)){
+            log.warn("A client tried to access user \"{}\" but this Username doesn't exist.", username);
+            throw new UserNotFoundException(String.format("The username %s does not exist.", username));
         }
     }
 

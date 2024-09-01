@@ -8,7 +8,7 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateBanne
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfilePictureUrlRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UserGroupMemberResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -142,7 +142,7 @@ public class ServiceController {
      */
     @GetMapping("/username-list")
     @ResponseStatus(HttpStatus.OK)
-    public List<UserGroupMemberResponse> getUsernames(@RequestParam List<UUID> userIds){
+    public List<UsernameResponse> getUsernames(@RequestParam List<UUID> userIds){
         log.info("Received request to retrieve usernames");
         return userService.getUsernames(userIds);
     }
