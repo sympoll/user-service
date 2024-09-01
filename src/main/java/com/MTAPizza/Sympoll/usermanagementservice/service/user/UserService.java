@@ -4,6 +4,7 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UserGroupMemberResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
@@ -119,6 +120,14 @@ public class UserService {
         return users.stream()
                 .map(user -> new UserGroupMemberResponse(user.getUserId(), user.getUsername()))
                 .collect(Collectors.toList());
+    }
+
+    public UserIdResponse getUserIdByUsername(String username) {
+        validator.checkUsernameExists(username);
+        // "orElse(null)" in order to avoid Optional<User>. This method won't be invoked if the username not exists.
+        return new UserIdResponse(userRepository.findAll().stream()
+                .filter(user -> user.getUsername().equals(username))
+                .findFirst().orElse(null).getUserId());
     }
 
 }

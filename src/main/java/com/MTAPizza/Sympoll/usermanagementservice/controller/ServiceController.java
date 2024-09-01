@@ -4,6 +4,7 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UserGroupMemberResponse;
@@ -117,5 +118,11 @@ public class ServiceController {
     public List<UserGroupMemberResponse> getUsernames(@RequestParam List<UUID> userIds){
         log.info("Received request to retrieve usernames");
         return userService.getUsernames(userIds);
+    }
+
+    @GetMapping("/by-username")
+    public UserIdResponse getUserIdByUsername(@RequestParam String username){
+        log.info("Received request to retrieve a user's id by username '{}'", username);
+        return userService.getUserIdByUsername(username);
     }
 }
