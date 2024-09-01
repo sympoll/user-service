@@ -4,6 +4,8 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserAddBannerPictureUrlRequest;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserAddProfilePictureUrlRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UserGroupMemberResponse;
@@ -34,6 +36,32 @@ public class ServiceController {
         log.info("Received request to create a user");
         log.debug("User received to create: {}", userCreateRequest);
         return userService.createUser(userCreateRequest);
+    }
+
+    /**
+     * Save a profile picture for a user
+     * @param userAddProfilePictureUrlRequest Information on the update to perform.
+     * @return The updated user's ID.
+     */
+    @PostMapping
+    @ResponseStatus(HttpStatus.OK)
+    public UUID addProfilePictureUrl(@RequestBody UserAddProfilePictureUrlRequest userAddProfilePictureUrlRequest){
+        log.info("Received request to save a profile picture url");
+        log.debug("Request received to add profile picture url: {}", userAddProfilePictureUrlRequest);
+        return userService.addProfilePictureUrl(userAddProfilePictureUrlRequest);
+    }
+
+    /**
+     * Save a banner picture for a user
+     * @param userAddBannerPictureUrlRequest Information on the update to perform.
+     * @return The updated user's ID.
+     */
+    @PostMapping
+    @ResponseStatus(HttpStatus.OK)
+    public UUID addBannerPictureUrl(@RequestBody UserAddBannerPictureUrlRequest userAddBannerPictureUrlRequest){
+        log.info("Received request to save a banner picture url");
+        log.debug("Request received to add banner picture url: {}", userAddBannerPictureUrlRequest);
+        return userService.addBannerPictureUrl(userAddBannerPictureUrlRequest);
     }
 
     /**
