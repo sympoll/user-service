@@ -2,7 +2,6 @@ package com.MTAPizza.Sympoll.usermanagementservice.validator;
 
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.exception.UserNotFoundException;
-import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
 import com.MTAPizza.Sympoll.usermanagementservice.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +18,7 @@ public class Validator {
 
     public void validateNewUser(UserCreateRequest userCreateRequest) {
         validatePassword(userCreateRequest.password());
-        validateUserName(userCreateRequest.username());
+        validateUsername(userCreateRequest.username());
         validateEmail(userCreateRequest.email());
     }
 
@@ -44,7 +43,7 @@ public class Validator {
         }
     }
 
-    private void validateUserName(String username) {
+    private void validateUsername(String username) {
         checkUsernameValidCharacters(username);
         checkUsernameMinimumLength(username);
         checkUsernameDoesntExist(username);
@@ -91,13 +90,6 @@ public class Validator {
         if (!email.matches(emailPattern)) {
             log.warn("Invalid email format.");
             throw new IllegalArgumentException("Invalid email format.");
-        }
-    }
-
-    public void checkUsernameExists(String username) {
-        if(!isUsernameExist(username)){
-            log.warn("A client tried to access user \"{}\" but this username doesn't exist.", username);
-            throw new UserNotFoundException(String.format("The username %s does not exist.", username));
         }
     }
 
