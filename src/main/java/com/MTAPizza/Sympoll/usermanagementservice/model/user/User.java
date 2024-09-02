@@ -33,8 +33,8 @@ public class User {
     @Column(name = "profile_picture_url")
     private String profilePictureUrl;
 
-    @Column(name = "banner_picture_url")
-    private String bannerPictureUrl;
+    @Column(name = "profile_banner_url")
+    private String profileBannerUrl;
 
     @Column(name = "created_at")
     private final LocalDateTime timeCreated = LocalDateTime.now(); // Initialize to the current time.
@@ -45,7 +45,7 @@ public class User {
                 this.username,
                 this.email,
                 this.profilePictureUrl,
-                this.bannerPictureUrl,
+                this.profileBannerUrl,
                 this.timeCreated
         );
     }

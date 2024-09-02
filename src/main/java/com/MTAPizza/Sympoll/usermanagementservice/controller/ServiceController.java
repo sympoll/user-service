@@ -4,7 +4,7 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateBannerPictureUrlRequest;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfileBannerUrlRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfilePictureUrlRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UserGroupMemberResponse;
@@ -52,15 +52,15 @@ public class ServiceController {
 
     /**
      * Save a banner picture for a user
-     * @param userUpdateBannerPictureUrlRequest Information on the update to perform.
+     * @param userUpdateProfileBannerUrlRequest Information on the update to perform.
      * @return The updated user's ID.
      */
     @PostMapping("/profile-banner-url")
     @ResponseStatus(HttpStatus.OK)
-    public UUID updateBannerPictureUrl(@RequestBody UserUpdateBannerPictureUrlRequest userUpdateBannerPictureUrlRequest){
+    public UUID updateProfileBannerUrl(@RequestBody UserUpdateProfileBannerUrlRequest userUpdateProfileBannerUrlRequest){
         log.info("Received request to save a banner picture url");
-        log.debug("Request received to add banner picture url: {}", userUpdateBannerPictureUrlRequest);
-        return userService.addBannerPictureUrl(userUpdateBannerPictureUrlRequest);
+        log.debug("Request received to add banner picture url: {}", userUpdateProfileBannerUrlRequest);
+        return userService.addProfileBannerUrl(userUpdateProfileBannerUrlRequest);
     }
 
     /**

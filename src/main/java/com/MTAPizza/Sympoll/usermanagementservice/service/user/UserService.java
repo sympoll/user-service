@@ -4,7 +4,7 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateBannerPictureUrlRequest;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfileBannerUrlRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfilePictureUrlRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UserGroupMemberResponse;
@@ -68,17 +68,17 @@ public class UserService {
 
     /**
      * Add a banner picture to a user's profile.
-     * @param userUpdateBannerPictureUrlRequest Information on the update requested.
+     * @param userUpdateProfileBannerUrlRequest Information on the update requested.
      * @return ID of the user that was updated.
      */
-    public UUID addBannerPictureUrl(UserUpdateBannerPictureUrlRequest userUpdateBannerPictureUrlRequest) {
+    public UUID addProfileBannerUrl(UserUpdateProfileBannerUrlRequest userUpdateProfileBannerUrlRequest) {
         User userToUpdate = userRepository
-                .findById(userUpdateBannerPictureUrlRequest.userId())
+                .findById(userUpdateProfileBannerUrlRequest.userId())
                 .orElseThrow(
-                        () -> new UserNotFoundException(userUpdateBannerPictureUrlRequest.userId())
+                        () -> new UserNotFoundException(userUpdateProfileBannerUrlRequest.userId())
                 );
 
-        userToUpdate.setBannerPictureUrl(userUpdateBannerPictureUrlRequest.bannerPictureUrl());
+        userToUpdate.setProfileBannerUrl(userUpdateProfileBannerUrlRequest.bannerPictureUrl());
         userRepository.save(userToUpdate);
 
         return userToUpdate.getUserId();
