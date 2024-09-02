@@ -6,8 +6,9 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResp
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfileBannerUrlRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfilePictureUrlRequest;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UserGroupMemberResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -139,10 +140,16 @@ public class ServiceController {
      * @param userIds Given user ids.
      * @return A list of DTO with the user id and the username.
      */
-    @GetMapping("/username-list")
+    @PostMapping("/username-list")
     @ResponseStatus(HttpStatus.OK)
-    public List<UserGroupMemberResponse> getUsernames(@RequestParam List<UUID> userIds){
+    public List<UsernameResponse> getUsernames(@RequestBody List<UUID> userIds){
         log.info("Received request to retrieve usernames");
         return userService.getUsernames(userIds);
+    }
+
+    @GetMapping("/by-username")
+    public UserIdResponse getUserIdByUsername(@RequestParam String username){
+        log.info("Received request to retrieve a user's id by username '{}'", username);
+        return userService.getUserIdByUsername(username);
     }
 }

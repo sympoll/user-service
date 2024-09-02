@@ -4,10 +4,11 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfileBannerUrlRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfilePictureUrlRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UserGroupMemberResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.exception.UserNotFoundException;
 import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
 import com.MTAPizza.Sympoll.usermanagementservice.password.PasswordHasher;
@@ -152,13 +153,21 @@ public class UserService {
      * @param userIdList Given user ids.
      * @return A list of DTO with the user id and the username.
      */
-    public List<UserGroupMemberResponse> getUsernames(List<UUID> userIdList) {
+    public List<UsernameResponse> getUsernames(List<UUID> userIdList) {
         validator.checkMultipleUserIdsExist(userIdList);
         List<User> users = userRepository.findAllById(userIdList);
 
         return users.stream()
-                .map(user -> new UserGroupMemberResponse(user.getUserId(), user.getUsername()))
+                .map(user -> new UsernameResponse(user.getUserId(), user.getUsername()))
                 .collect(Collectors.toList());
+    }
+
+    public UserIdResponse getUserIdByUsername(String username) {
+        validator.validateUsernameExists(username);
+        // "orElse(null)" in order to avoid Optional<User>. This method won't be invoked if the username not exists.
+        return new UserIdResponse(userRepository.findAll().stream()
+                .filter(user -> user.getUsername().equals(username))
+                .findFirst().orElse(null).getUserId());
     }
 
 }
