@@ -18,8 +18,8 @@ public class UserExceptionHandler {
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<UserNotFoundError> handlePollValidationException(UserNotFoundError ex, WebRequest request) {
-        return new ResponseEntity<>(new UserNotFoundError(ex.message()), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<UserNotFoundError> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
+        return new ResponseEntity<>(new UserNotFoundError(ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     /**

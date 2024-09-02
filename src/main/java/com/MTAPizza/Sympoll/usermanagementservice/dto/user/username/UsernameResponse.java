@@ -2,7 +2,7 @@ package com.MTAPizza.Sympoll.usermanagementservice.dto.user.username;
 
 import java.util.UUID;
 
-public record UserGroupMemberResponse(
+public record UsernameResponse(
        UUID userId,
        String username
 ) {
