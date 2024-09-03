@@ -110,6 +110,20 @@ public class UserService {
     }
 
     /**
+     * Fetch and retrieve multiple user data, by their IDs.
+     * @param userIds User IDs to fetch their data.
+     * @return A list of DTOs with the users' data.
+     */
+    public List<UserResponse> getUserListByIds(List<UUID> userIds) {
+        validator.checkMultipleUserIdsExist(userIds);
+        List<User> users = userRepository.findAllById(userIds);
+
+        return users.stream()
+                .map(User::toUserResponse)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Delete a user from the database.
      * @param userId ID of the user to delete.
      * @return the ID of the user deleted.
@@ -146,20 +160,6 @@ public class UserService {
      */
     public EmailExistsResponse checkEmailExists(String email){
         return new EmailExistsResponse(userRepository.existsByEmail(email));
-    }
-
-    /**
-     * Fetch and retrieve a list of usernames by their ids.
-     * @param userIdList Given user ids.
-     * @return A list of DTO with the user id and the username.
-     */
-    public List<UsernameResponse> getUsernames(List<UUID> userIdList) {
-        validator.checkMultipleUserIdsExist(userIdList);
-        List<User> users = userRepository.findAllById(userIdList);
-
-        return users.stream()
-                .map(user -> new UsernameResponse(user.getUserId(), user.getUsername()))
-                .collect(Collectors.toList());
     }
 
     public UserIdResponse getUserIdByUsername(String username) {

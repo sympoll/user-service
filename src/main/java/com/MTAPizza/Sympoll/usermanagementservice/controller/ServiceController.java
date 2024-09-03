@@ -88,6 +88,18 @@ public class ServiceController {
     }
 
     /**
+     * Fetch and retrieve data of all users received by their IDs.
+     * @param userIds User IDs to fetch their data.
+     * @return A list of user data DTOs.
+     */
+    @PostMapping("/list-by-user-ids")
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserResponse> getUserListByIds(@RequestBody List<UUID> userIds){
+        log.info("Received request to retrieve usernames");
+        return userService.getUserListByIds(userIds);
+    }
+
+    /**
      * Delete a user from the database, by its ID.
      * @param userId ID of the user to delete.
      * @return The ID of the user that was deleted.
@@ -133,18 +145,6 @@ public class ServiceController {
     public EmailExistsResponse checkEmailExists(@RequestParam String email){
         log.info("Received request to check if email '{}' exists", email);
         return userService.checkEmailExists(email);
-    }
-
-    /**
-     * Fetch and retrieve a list of usernames by their ids.
-     * @param userIds Given user ids.
-     * @return A list of DTO with the user id and the username.
-     */
-    @PostMapping("/username-list")
-    @ResponseStatus(HttpStatus.OK)
-    public List<UsernameResponse> getUsernames(@RequestBody List<UUID> userIds){
-        log.info("Received request to retrieve usernames");
-        return userService.getUsernames(userIds);
     }
 
     @GetMapping("/by-username")
