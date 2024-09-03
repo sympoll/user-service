@@ -99,7 +99,7 @@ public class UserService {
     }
 
     /**
-     * Retrieve a user from the database.
+     * Retrieve a user from the database by his ID.
      * @param userId ID of the user to retrieve.
      * @return The retrieved user's details.
      */
@@ -107,6 +107,16 @@ public class UserService {
         validator.checkUserIdExists(userId);
         log.info("Retrieving user by id: {}", userId);
         return userRepository.getReferenceById(userId).toUserResponse();
+    }
+
+    /**
+     * Retrieve a user from the database by his Username.
+     * @param username Username of the user to retrieve.
+     * @return The retrieved user's details.
+     */
+    public UserResponse getUserByUsername(String username) {
+        validator.validateUsernameExists(username);
+        return userRepository.findByUsername(username).toUserResponse();
     }
 
     /**
@@ -161,13 +171,4 @@ public class UserService {
     public EmailExistsResponse checkEmailExists(String email){
         return new EmailExistsResponse(userRepository.existsByEmail(email));
     }
-
-    public UserIdResponse getUserIdByUsername(String username) {
-        validator.validateUsernameExists(username);
-        // "orElse(null)" in order to avoid Optional<User>. This method won't be invoked if the username not exists.
-        return new UserIdResponse(userRepository.findAll().stream()
-                .filter(user -> user.getUsername().equals(username))
-                .findFirst().orElse(null).getUserId());
-    }
-
 }

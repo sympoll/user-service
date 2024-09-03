@@ -88,6 +88,17 @@ public class ServiceController {
     }
 
     /**
+     * Fetch a user from the database, by its username.
+     * @param username Username of the user to fetch.
+     * @return The user requested.
+     */
+    @GetMapping("/by-username")
+    public UserResponse getUserByUsername(@RequestParam String username){
+        log.info("Received request to retrieve a user's user data by username '{}'", username);
+        return userService.getUserByUsername(username);
+    }
+
+    /**
      * Fetch and retrieve data of all users received by their IDs.
      * @param userIds User IDs to fetch their data.
      * @return A list of user data DTOs.
@@ -145,11 +156,5 @@ public class ServiceController {
     public EmailExistsResponse checkEmailExists(@RequestParam String email){
         log.info("Received request to check if email '{}' exists", email);
         return userService.checkEmailExists(email);
-    }
-
-    @GetMapping("/by-username")
-    public UserIdResponse getUserIdByUsername(@RequestParam String username){
-        log.info("Received request to retrieve a user's id by username '{}'", username);
-        return userService.getUserIdByUsername(username);
     }
 }
