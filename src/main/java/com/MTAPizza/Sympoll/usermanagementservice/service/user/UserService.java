@@ -99,7 +99,7 @@ public class UserService {
     }
 
     /**
-     * Retrieve a user from the database.
+     * Retrieve a user from the database by his ID.
      * @param userId ID of the user to retrieve.
      * @return The retrieved user's details.
      */
@@ -107,6 +107,30 @@ public class UserService {
         validator.checkUserIdExists(userId);
         log.info("Retrieving user by id: {}", userId);
         return userRepository.getReferenceById(userId).toUserResponse();
+    }
+
+    /**
+     * Retrieve a user from the database by his Username.
+     * @param username Username of the user to retrieve.
+     * @return The retrieved user's details.
+     */
+    public UserResponse getUserByUsername(String username) {
+        validator.validateUsernameExists(username);
+        return userRepository.findByUsername(username).toUserResponse();
+    }
+
+    /**
+     * Fetch and retrieve multiple user data, by their IDs.
+     * @param userIds User IDs to fetch their data.
+     * @return A list of DTOs with the users' data.
+     */
+    public List<UserResponse> getUserListByIds(List<UUID> userIds) {
+        validator.checkMultipleUserIdsExist(userIds);
+        List<User> users = userRepository.findAllById(userIds);
+
+        return users.stream()
+                .map(User::toUserResponse)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -147,27 +171,4 @@ public class UserService {
     public EmailExistsResponse checkEmailExists(String email){
         return new EmailExistsResponse(userRepository.existsByEmail(email));
     }
-
-    /**
-     * Fetch and retrieve a list of usernames by their ids.
-     * @param userIdList Given user ids.
-     * @return A list of DTO with the user id and the username.
-     */
-    public List<UsernameResponse> getUsernames(List<UUID> userIdList) {
-        validator.checkMultipleUserIdsExist(userIdList);
-        List<User> users = userRepository.findAllById(userIdList);
-
-        return users.stream()
-                .map(user -> new UsernameResponse(user.getUserId(), user.getUsername()))
-                .collect(Collectors.toList());
-    }
-
-    public UserIdResponse getUserIdByUsername(String username) {
-        validator.validateUsernameExists(username);
-        // "orElse(null)" in order to avoid Optional<User>. This method won't be invoked if the username not exists.
-        return new UserIdResponse(userRepository.findAll().stream()
-                .filter(user -> user.getUsername().equals(username))
-                .findFirst().orElse(null).getUserId());
-    }
-
 }
