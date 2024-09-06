@@ -4,11 +4,9 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfileBannerUrlRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfilePictureUrlRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.exception.UserNotFoundException;
 import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
 import com.MTAPizza.Sympoll.usermanagementservice.password.PasswordHasher;
@@ -34,17 +32,20 @@ public class UserService {
      * @param userCreateRequest Details of the user to add.
      * @return The user that was added to the database.
      */
-    public UserResponse createUser(UserCreateRequest userCreateRequest) {
-        validator.validateNewUser(userCreateRequest);
-        User user = User.builder()
-                .username(userCreateRequest.username())
-                .password(PasswordHasher.hashPassword(userCreateRequest.password()))
-                .email(userCreateRequest.email())
-                .build();
+    public UserResponse loginUser(UserCreateRequest userCreateRequest) {
+        User user = userRepository.findByUsername(userCreateRequest.username());
 
-        userRepository.save(user);
-        log.info("USER: {} was created.", user.getUserId());
-        log.info("USER{}: {}", user.getUserId(), user.toString());
+        if(user == null) {
+            validator.validateNewUser(userCreateRequest);
+            user = User.builder()
+                    .username(userCreateRequest.username())
+                    .email(userCreateRequest.email())
+                    .build();
+
+            userRepository.save(user);
+            log.info("USER: {} was created.", user.getUserId());
+            log.info("USER{}: {}", user.getUserId(), user.toString());
+        }
         return user.toUserResponse();
     }
 

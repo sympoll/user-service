@@ -60,7 +60,6 @@ class UserManagementServiceApplicationTests {
 		String requestBodyUsr1 = """
                 {
                   "username": "MTAPizza",
-                  "password": "2334445555",
                   "email": "MTAPizza@gmail.com"
                 }
                 """;
@@ -74,7 +73,6 @@ class UserManagementServiceApplicationTests {
 		String requestBodyUsr2 = """
                 {
                   "username": "SirFeliX",
-                  "password": "m1e2o3w4",
                   "email": "iHuntParrots3@gmail.com"
                 }
                 """;
