@@ -59,6 +59,7 @@ class UserManagementServiceApplicationTests {
 	void shouldCreateNewUser() {
 		String requestBodyUsr1 = """
                 {
+                  "userId": "6f9e81bf-7f55-47b4-a19b-f1b46b1c29c1",
                   "username": "MTAPizza",
                   "email": "MTAPizza@gmail.com"
                 }
@@ -72,6 +73,7 @@ class UserManagementServiceApplicationTests {
 
 		String requestBodyUsr2 = """
                 {
+                  "userId": "5a963797-5a78-49d3-8580-2dfb3b6ab08e",
                   "username": "SirFeliX",
                   "email": "iHuntParrots3@gmail.com"
                 }
