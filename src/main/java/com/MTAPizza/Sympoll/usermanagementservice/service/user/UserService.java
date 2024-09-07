@@ -38,6 +38,7 @@ public class UserService {
         if(user == null) {
             validator.validateNewUser(userCreateRequest);
             user = User.builder()
+                    .userId(UUID.fromString(userCreateRequest.userId()))
                     .username(userCreateRequest.username())
                     .email(userCreateRequest.email())
                     .build();
