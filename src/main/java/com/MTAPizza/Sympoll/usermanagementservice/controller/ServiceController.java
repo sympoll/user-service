@@ -6,9 +6,7 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResp
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfileBannerUrlRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfilePictureUrlRequest;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -32,10 +30,10 @@ public class ServiceController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse createUser(@RequestBody UserCreateRequest userCreateRequest){
+    public UserResponse loginUser(@RequestBody UserCreateRequest userCreateRequest){
         log.info("Received request to create a user");
         log.debug("User received to create: {}", userCreateRequest);
-        return userService.createUser(userCreateRequest);
+        return userService.loginUser(userCreateRequest);
     }
 
     /**
