@@ -17,30 +17,8 @@ public class Validator {
     private final UserRepository userRepository;
 
     public void validateNewUser(UserCreateRequest userCreateRequest) {
-        validatePassword(userCreateRequest.password());
         validateUsername(userCreateRequest.username());
         validateEmail(userCreateRequest.email());
-    }
-
-    private void validatePassword(String password) {
-        checkValidCharacters(password);
-        checkMinimumLength(password);
-    }
-
-    private void checkValidCharacters(String password) {
-        // Alphanumeric and a set of special characters considered safe
-        String validCharactersPattern = "^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{}|;:'\",.<>?/`~]*$";
-        if (!password.matches(validCharactersPattern)) {
-            log.warn("Password contains invalid characters.");
-            throw new IllegalArgumentException("Password contains invalid characters.");
-        }
-    }
-
-    private void checkMinimumLength(String password) {
-        if (password.length() < 6) {
-            log.warn("Password is too short. It must be at least 4 characters long.");
-            throw new IllegalArgumentException("Password is too short. It must be at least 4 characters long.");
-        }
     }
 
     private void validateUsername(String username) {
