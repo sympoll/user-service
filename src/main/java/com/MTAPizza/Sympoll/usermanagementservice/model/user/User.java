@@ -27,6 +27,9 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "profile_picture_url")
     private String profilePictureUrl;
 
@@ -41,6 +44,7 @@ public class User {
                 this.userId,
                 this.username,
                 this.email,
+                this.description,
                 this.profilePictureUrl,
                 this.profileBannerUrl,
                 this.timeCreated
