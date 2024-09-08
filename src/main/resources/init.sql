@@ -5,6 +5,6 @@ CREATE TABLE users (
     email                VARCHAR(255) NOT NULL,
     description          TEXT,
     profile_picture_url  VARCHAR(255),
-    banner_picture_url   VARCHAR(255),
+    profile_banner_url   VARCHAR(255),
     created_at           TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
