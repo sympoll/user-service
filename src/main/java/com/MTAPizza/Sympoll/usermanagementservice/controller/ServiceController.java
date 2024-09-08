@@ -2,6 +2,7 @@ package com.MTAPizza.Sympoll.usermanagementservice.controller;
 
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.description.UserUpdateDescriptionRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfileBannerUrlRequest;
@@ -60,6 +61,19 @@ public class ServiceController {
         log.info("Received request to save a banner picture url");
         log.debug("Request received to add banner picture url: {}", userUpdateProfileBannerUrlRequest);
         return userService.addProfileBannerUrl(userUpdateProfileBannerUrlRequest);
+    }
+
+    /**
+     * Save a user profile description.
+     * @param userUpdateDescriptionRequest Information on the user and the description to save.
+     * @return the updated user's ID.
+     */
+    @PostMapping("/description")
+    @ResponseStatus(HttpStatus.OK)
+    public UUID updateProfileDescription(@RequestBody UserUpdateDescriptionRequest userUpdateDescriptionRequest){
+        log.info("Received request to save a description");
+        log.debug("Request received to add description: {}", userUpdateDescriptionRequest);
+        return userService.updateProfileDescription(userUpdateDescriptionRequest);
     }
 
     /**

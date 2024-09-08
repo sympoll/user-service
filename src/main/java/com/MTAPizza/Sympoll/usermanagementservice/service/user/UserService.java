@@ -2,6 +2,7 @@ package com.MTAPizza.Sympoll.usermanagementservice.service.user;
 
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserCreateRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.description.UserUpdateDescriptionRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfileBannerUrlRequest;
@@ -173,4 +174,21 @@ public class UserService {
     public EmailExistsResponse checkEmailExists(String email){
         return new EmailExistsResponse(userRepository.existsByEmail(email));
     }
+
+    /**
+     * Add a profile description to a user's profile.
+     * @param userUpdateDescriptionRequest Details on the user to add and the description to update.
+     * @return ID of the updated user.
+     */
+    public UUID updateProfileDescription(UserUpdateDescriptionRequest userUpdateDescriptionRequest) {
+        User userToUpdate = userRepository
+                .findById(userUpdateDescriptionRequest.userId())
+                .orElseThrow(
+                        () -> new UserNotFoundException(userUpdateDescriptionRequest.userId())
+                );
+
+        userToUpdate.setDescription(userUpdateDescriptionRequest.description());
+        userRepository.save(userToUpdate);
+
+        return userToUpdate.getUserId();    }
 }
