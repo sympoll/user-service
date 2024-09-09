@@ -5,7 +5,7 @@
 - [1. About](#1-about)
 - [2. Architecture](#2-architecture)
   - [2.1 Ports](#21-ports)
-  - [2.2 User Management Service Schema](#22-user-management-service-schema)
+  - [2.2 User Service Schema](#22-user-service-schema)
   - [2.3 Endpoints](#23-endpoints)
     - [2.3.1 Login a User](#231-login-a-user)
     - [2.3.2 Update profile picture URL](#232-update-profile-picture-url)
@@ -40,7 +40,7 @@ The User Service is a RESTful API that manages user data such as creation, retri
 
 <br />
 
-### 2.2. User Management Service Schema
+### 2.2. User Service Schema
 
 The database schema includes the following tables:
 
