@@ -5,8 +5,10 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.description.UserUpdateDescriptionRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfileBannerUrlRequest;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfilePictureUrlRequest;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.request.update.UserUpdateProfileBannerUrlRequest;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.request.update.UserUpdateProfilePictureUrlRequest;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.response.update.UpdateProfileBannerUrlResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.response.update.UpdateProfilePictureUrlResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +46,7 @@ public class ServiceController {
      */
     @PostMapping("/profile-picture-url")
     @ResponseStatus(HttpStatus.OK)
-    public UUID updateProfilePictureUrl(@RequestBody UserUpdateProfilePictureUrlRequest userUpdateProfilePictureUrlRequest){
+    public UpdateProfilePictureUrlResponse updateProfilePictureUrl(@RequestBody UserUpdateProfilePictureUrlRequest userUpdateProfilePictureUrlRequest){
         log.info("Received request to save a profile picture url");
         log.debug("Request received to add profile picture url: {}", userUpdateProfilePictureUrlRequest);
         return userService.addProfilePictureUrl(userUpdateProfilePictureUrlRequest);
@@ -57,7 +59,7 @@ public class ServiceController {
      */
     @PostMapping("/profile-banner-url")
     @ResponseStatus(HttpStatus.OK)
-    public UUID updateProfileBannerUrl(@RequestBody UserUpdateProfileBannerUrlRequest userUpdateProfileBannerUrlRequest){
+    public UpdateProfileBannerUrlResponse updateProfileBannerUrl(@RequestBody UserUpdateProfileBannerUrlRequest userUpdateProfileBannerUrlRequest){
         log.info("Received request to save a banner picture url");
         log.debug("Request received to add banner picture url: {}", userUpdateProfileBannerUrlRequest);
         return userService.addProfileBannerUrl(userUpdateProfileBannerUrlRequest);

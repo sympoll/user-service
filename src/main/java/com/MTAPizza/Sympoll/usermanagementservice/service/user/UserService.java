@@ -5,12 +5,13 @@ import com.MTAPizza.Sympoll.usermanagementservice.dto.user.UserResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.description.UserUpdateDescriptionRequest;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.email.EmailExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.id.UserIdExistsResponse;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfileBannerUrlRequest;
-import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.UserUpdateProfilePictureUrlRequest;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.request.update.UserUpdateProfileBannerUrlRequest;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.request.update.UserUpdateProfilePictureUrlRequest;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.response.update.UpdateProfileBannerUrlResponse;
+import com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.response.update.UpdateProfilePictureUrlResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.dto.user.username.UsernameExistsResponse;
 import com.MTAPizza.Sympoll.usermanagementservice.exception.UserNotFoundException;
 import com.MTAPizza.Sympoll.usermanagementservice.model.user.User;
-import com.MTAPizza.Sympoll.usermanagementservice.password.PasswordHasher;
 import com.MTAPizza.Sympoll.usermanagementservice.repository.user.UserRepository;
 import com.MTAPizza.Sympoll.usermanagementservice.validator.Validator;
 import lombok.RequiredArgsConstructor;
@@ -57,17 +58,21 @@ public class UserService {
      * @param userUpdateProfilePictureUrlRequest Information on the update requested.
      * @return ID of the user that was updated.
      */
-    public UUID addProfilePictureUrl(UserUpdateProfilePictureUrlRequest userUpdateProfilePictureUrlRequest) {
+    public UpdateProfilePictureUrlResponse addProfilePictureUrl(UserUpdateProfilePictureUrlRequest userUpdateProfilePictureUrlRequest) {
         User userToUpdate = userRepository
                 .findById(userUpdateProfilePictureUrlRequest.userId())
                 .orElseThrow(
                         () -> new UserNotFoundException(userUpdateProfilePictureUrlRequest.userId())
                 );
+        String oldProfilePictureUrl = userToUpdate.getProfilePictureUrl();
 
         userToUpdate.setProfilePictureUrl(userUpdateProfilePictureUrlRequest.profilePictureUrl());
         userRepository.save(userToUpdate);
 
-        return userToUpdate.getUserId();
+        return new UpdateProfilePictureUrlResponse(
+                userToUpdate.getUserId(),
+                oldProfilePictureUrl
+        );
     }
 
     /**
@@ -75,17 +80,21 @@ public class UserService {
      * @param userUpdateProfileBannerUrlRequest Information on the update requested.
      * @return ID of the user that was updated.
      */
-    public UUID addProfileBannerUrl(UserUpdateProfileBannerUrlRequest userUpdateProfileBannerUrlRequest) {
+    public UpdateProfileBannerUrlResponse addProfileBannerUrl(UserUpdateProfileBannerUrlRequest userUpdateProfileBannerUrlRequest) {
         User userToUpdate = userRepository
                 .findById(userUpdateProfileBannerUrlRequest.userId())
                 .orElseThrow(
                         () -> new UserNotFoundException(userUpdateProfileBannerUrlRequest.userId())
                 );
+        String oldProfileBannerUrl = userToUpdate.getProfileBannerUrl();
 
         userToUpdate.setProfileBannerUrl(userUpdateProfileBannerUrlRequest.bannerPictureUrl());
         userRepository.save(userToUpdate);
 
-        return userToUpdate.getUserId();
+        return new UpdateProfileBannerUrlResponse(
+                userToUpdate.getUserId(),
+                oldProfileBannerUrl
+        );
     }
 
     /**

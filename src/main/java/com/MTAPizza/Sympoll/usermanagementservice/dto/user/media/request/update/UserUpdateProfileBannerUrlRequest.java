@@ -1,4 +1,4 @@
-package com.MTAPizza.Sympoll.usermanagementservice.dto.user.media;
+package com.MTAPizza.Sympoll.usermanagementservice.dto.user.media.request.update;
 
 import java.util.UUID;
 
