@@ -56,7 +56,7 @@ public class UserService {
     /**
      * Add a profile picture to a user's profile.
      * @param userUpdateProfilePictureUrlRequest Information on the update requested.
-     * @return ID of the user that was updated.
+     * @return DTO containing the ID of the user and the old profile picture url.
      */
     public UpdateProfilePictureUrlResponse addProfilePictureUrl(UserUpdateProfilePictureUrlRequest userUpdateProfilePictureUrlRequest) {
         User userToUpdate = userRepository
@@ -78,7 +78,7 @@ public class UserService {
     /**
      * Add a banner picture to a user's profile.
      * @param userUpdateProfileBannerUrlRequest Information on the update requested.
-     * @return ID of the user that was updated.
+     * @return DTO containing the ID of the user and the old profile banner url.
      */
     public UpdateProfileBannerUrlResponse addProfileBannerUrl(UserUpdateProfileBannerUrlRequest userUpdateProfileBannerUrlRequest) {
         User userToUpdate = userRepository
